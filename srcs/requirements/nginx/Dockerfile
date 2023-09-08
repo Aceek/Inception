@@ -10,7 +10,7 @@ RUN apt-get update && apt-get install -y nginx vim openssl \
     && chown -R www-data:www-data /var/www/html
 
 # Copie de la configuration Nginx
-COPY conf/default.conf /etc/nginx/http.d/default.conf
+COPY conf/nginx.conf /etc/nginx/conf.d/default.conf
 
 # Commande pour démarrer Nginx en mode démon
 CMD [ "nginx", "-g", "daemon off;" ]
