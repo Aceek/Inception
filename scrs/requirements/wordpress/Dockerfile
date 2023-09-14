@@ -1,48 +1,42 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Dockerfile                                         :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2022/07/25 17:40:17 by jcluzet           #+#    #+#              #
-#    Updated: 2023/09/13 10:06:36 by ilinhard         ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
-
-# ==> Create a container from DEBIAN
 FROM debian:buster
 
-# ==> MAJ of apt-get, to get the last version of packages
-RUN apt-get update && apt-get upgrade -y
+RUN apt-get update && apt-get -y install \
+	wget \
+	curl \
+	bash \
+	php \
+	php-cgi \
+	php-mysql \
+	php-fpm \
+	php-pdo \
+	php-gd php-cli \
+	php-mbstring \
+	redis \
+	php-redis \
+	&& rm -rf /var/lib/apt/lists/*
 
-# ==> Install WGET to download the WordPress source code
-RUN apt-get -y install wget
+# I need to install wp_cli command and put it in the right directory /usr/local/bin
+RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \
+  && chmod +x wp-cli.phar \
+  && mv wp-cli.phar /usr/local/bin/wp
 
-# ==> Install PHP 7.3 and its dependencies
-RUN apt-get install -y php7.3\
-	php-fpm\
-	php-mysql\
-	mariadb-client 
-	# not sure for mariadb client
+# Copy the .conf in the html directory
+COPY ./conf/www.conf /etc/php/7.3/fpm/pool.d/
 
-# download wordpress 6.0 from wordpress.org into /var/www/ and extract it with tar command
-RUN wget https://wordpress.org/wordpress-6.0.tar.gz -P /var/www
-RUN cd /var/www && tar -xzf wordpress-6.0.tar.gz && rm wordpress-6.0.tar.gz
+#Create the folder to enable php start
+RUN mkdir /run/php
 
-#copy of php configuration
-COPY	./conf/php.conf			/etc/php/7.3/fpm/pool.d/www.conf
+#we copy the script, give the right to launch it in local on our computer
+COPY ./tools/create_wordpress.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/create_wordpress.sh
+ENTRYPOINT ["/usr/local/bin/create_wordpress.sh"]
 
-# give the right to the user to write in the directory
-# install wp-cli to manage wordpress installation
-RUN wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
+#We go the html directory
+WORKDIR /var/www/html/
 
-# copy wp-cli to /usr/local/bin/wp and give the right to the user to write in the directory
-RUN chmod +x wp-cli.phar
-RUN mv wp-cli.phar /usr/local/bin/wp
+#We expose the 9000 port
+EXPOSE 9000
 
-#copy auto_config
-COPY conf/auto_config.sh auto_config.sh
+#Launch PHP FPM in foreground and ignore deamonize from conf file (-F)
+CMD ["/usr/sbin/php-fpm7.3", "-F"]
 
-# RUN mv /var/www/html/wp-config-sample.php /var/www/html/wp-config.php
-ENTRYPOINT ["bash", "auto_config.sh"]

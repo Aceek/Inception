@@ -6,7 +6,7 @@
 #    By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/07/25 17:39:14 by jcluzet           #+#    #+#              #
-#    Updated: 2023/09/13 10:06:36 by ilinhard         ###   ########.fr        #
+#    Updated: 2023/09/14 01:48:39 by ilinhard         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@
 service mysql start;
 
 # create a database (if the database does not exist)
-mysql -e "CREATE DATABASE IF NOT EXISTS \`${MYMYSQL_DATABASE}\`;"
+mysql -e "CREATE DATABASE IF NOT EXISTS \`${MYSQL_DATABASE}\`;"
 
 # create an user with a password (if the user does not exist)
 mysql -e "CREATE USER IF NOT EXISTS \`${MYSQL_USER}\`@'localhost' IDENTIFIED BY '${MYSQL_PASSWORD}';"
