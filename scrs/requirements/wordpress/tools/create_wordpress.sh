@@ -6,13 +6,6 @@ then
 	echo "wordpress already downloaded"
 else
 
-	# #Download wordpress and all config file
-	# wget http://wordpress.org/latest.tar.gz
-	# tar xfz latest.tar.gz
-	# mv wordpress/* .
-	# rm -rf latest.tar.gz
-	# rm -rf wordpress
-	#Download WordPress version 6.0 and all config files
 	wget https://wordpress.org/wordpress-6.0.tar.gz
 	tar xfz wordpress-6.0.tar.gz
 	mv wordpress/* .
