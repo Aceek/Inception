@@ -6,13 +6,17 @@ then
 	echo "wordpress already downloaded"
 else
 
-####### MANDATORY PART ##########
-
-	#Download wordpress and all config file
-	wget http://wordpress.org/latest.tar.gz
-	tar xfz latest.tar.gz
+	# #Download wordpress and all config file
+	# wget http://wordpress.org/latest.tar.gz
+	# tar xfz latest.tar.gz
+	# mv wordpress/* .
+	# rm -rf latest.tar.gz
+	# rm -rf wordpress
+	#Download WordPress version 6.0 and all config files
+	wget https://wordpress.org/wordpress-6.0.tar.gz
+	tar xfz wordpress-6.0.tar.gz
 	mv wordpress/* .
-	rm -rf latest.tar.gz
+	rm -rf wordpress-6.0.tar.gz
 	rm -rf wordpress
 
 	#Inport env variables in the config file
