@@ -4,6 +4,8 @@ services:
   nginx:
     container_name: nginx
     build: ./requirements/nginx
+    depends_on:
+      - redis
     ports:
       - 443:443
     volumes:
@@ -41,6 +43,22 @@ services:
       - wordpress_data:/var/www/html
     networks:
       - network
+
+#############BONUS############
+  redis:
+    build:
+      context: ./requirements/bonus/redis
+      dockerfile: Dockerfile
+    container_name: redis
+    depends_on:
+      - wordpress
+    ports:
+      - "6379:6379"
+    networks:
+      - network
+    restart: always
+
+##############################
 
 volumes:
   mariadb_data:

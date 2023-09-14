@@ -18,16 +18,24 @@ else
 	sed -i "s/localhost/$MYSQL_HOSTNAME/g" wp-config-sample.php
 	sed -i "s/database_name_here/$MYSQL_DATABASE/g" wp-config-sample.php
 	cp wp-config-sample.php wp-config.php
-###################################
 
+	sleep 10
 
-sleep 10
+	wp core install --url=$DOMAIN_NAME --title=$SITE_TITLE --admin_user=$ADMIN_USER --admin_password=$ADMIN_PASSWORD --admin_email=$ADMIN_EMAIL --allow-root --path='/var/www/html'
 
-wp core install --url=$DOMAIN_NAME --title=$SITE_TITLE --admin_user=$ADMIN_USER --admin_password=$ADMIN_PASSWORD --admin_email=$ADMIN_EMAIL --allow-root --path='/var/www/html'
+	wp user create --allow-root --role=author $USER1_LOGIN $USER1_MAIL --user_pass=$USER1_PASS --path='/var/www/html' >> log.txt
 
-wp user create --allow-root --role=author $USER1_LOGIN $USER1_MAIL --user_pass=$USER1_PASS --path='/var/www/html' >> log.txt
+	#############BONUS#################
 
-###################################
+	wp config set WP_REDIS_HOST redis --allow-root #I put --allowroot because i am on the root user on my VM
+  	wp config set WP_REDIS_PORT 6379 --raw --allow-root
+ 	wp config set WP_CACHE_KEY_SALT $DOMAIN_NAME --allow-root
+  	#wp config set WP_REDIS_PASSWORD $REDIS_PASSWORD --allow-root
+ 	wp config set WP_REDIS_CLIENT phpredis --allow-root
+	wp plugin install redis-cache --activate --allow-root
+    wp plugin update --all --allow-root
+	wp redis enable --allow-root
+
 fi
 
 exec "$@"
