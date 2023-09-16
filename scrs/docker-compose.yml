@@ -76,6 +76,17 @@ services:
       - FTP_PWD=${FTP_PWD} # chargé depuis .env
     restart: always
 
+  adminer:
+    build: ./requirements/bonus/adminer
+    container_name: adminer
+    restart: always
+    depends_on:
+      - mariadb
+    expose:
+     - "9000"
+    networks:
+      - network
+
 ##############################
 
 volumes:
