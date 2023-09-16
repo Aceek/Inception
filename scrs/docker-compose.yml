@@ -58,6 +58,24 @@ services:
       - network
     restart: always
 
+  ftp-server:
+    build:
+      context: ./requirements/bonus/vsftpd
+      dockerfile: Dockerfile
+    container_name: ftp-server
+    ports:
+      - "20:20" # port pour la connexion de données FTP active
+      - "21:21" # port pour les commandes FTP
+      - "21100-21110:21100-21110" # ports pour mode passif FTP 
+    volumes:
+      - wordpress_data:/var/www/html
+    networks:
+      - network
+    environment:
+      - FTP_USR=${FTP_USR} # chargé depuis .env
+      - FTP_PWD=${FTP_PWD} # chargé depuis .env
+    restart: always
+
 ##############################
 
 volumes:
