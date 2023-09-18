@@ -1,0 +1,19 @@
+REDIS:
+# verifier clef redis 
+#Accéder à l'interface CLI de Redis
+$> redis-cli
+# lister les clefs
+$> KEYS *
+
+FTP_SERVER:
+# acceder au dossier /var/www/html (wordpress) via ftp
+$> ftp -p ilinhard.42.fr 21
+
+ADMINER:
+https://ilinhard.42.fr/adminer.php
+
+CADVISOR:
+http://ilinhard.42.fr:8080/containers/
+
+STATIC:
+https://ilinhard.42.fr/static.html
