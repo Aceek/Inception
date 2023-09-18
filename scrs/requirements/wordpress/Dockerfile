@@ -26,6 +26,9 @@ COPY ./conf/www.conf /etc/php/7.3/fpm/pool.d/
 #Create the folder to enable php start
 RUN mkdir /run/php
 
+# copy static page on wordpress
+COPY conf/static.html /tmp/static.html
+
 #we copy the script, give the right to launch it in local on our computer
 COPY ./tools/create_wordpress.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/create_wordpress.sh

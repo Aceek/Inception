@@ -12,4 +12,4 @@ clean:
 fclean : clean
 	docker rmi $$(docker images -q)
 
-.PHONY: all re down clean
+.PHONY: all re down clean7

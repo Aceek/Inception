@@ -36,6 +36,11 @@ else
     wp plugin update --all --allow-root
 	wp redis enable --allow-root
 
+	# ad static page on wordpress
+	mv /tmp/static.html /var/www/html
+	chmod 644 /var/www/html/static.html
+	chown www-data:www-data /var/www/html/static.html
+
 fi
 
 exec "$@"
