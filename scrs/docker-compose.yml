@@ -87,6 +87,20 @@ services:
     networks:
       - network
 
+  cadvisor:
+    build:
+      context: ./requirements/bonus/cadvisor
+      dockerfile: Dockerfile # Remplacez ceci par le chemin vers votre Dockerfile
+    container_name: cadvisor
+    ports:
+      - "8080:8080" # Expose le port de cAdvisor pour y accéder via le navigateur ou d'autres outils
+    volumes:
+      - "/:/rootfs:ro"
+      - "/var/run:/var/run:rw"
+      - "/sys:/sys:ro"
+      - "/var/lib/docker/:/var/lib/docker:ro"
+    restart: always
+
 ##############################
 
 volumes:
