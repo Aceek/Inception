@@ -11,6 +11,9 @@ $> ftp -p ilinhard.42.fr 21
 
 ADMINER:
 https://ilinhard.42.fr/adminer.php
+server : mariadb (container)
+User : ilinhard
+mdp : (.env)
 
 CADVISOR:
 http://ilinhard.42.fr:8080/containers/
